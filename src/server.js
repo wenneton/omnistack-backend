@@ -11,24 +11,23 @@ app.use(cors());
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-io.on('connection', socket => {
-    socket.on('connectRoom', box => {
-        socket.join(box);
-    });
-})
+io.on('connection', (socket) => {
+  socket.on('connectRoom', (box) => {
+    socket.join(box);
+  });
+});
 
 // Conexão com o BD
 mongoose.connect('mongodb+srv://omnistack:omnistack@clusteromnistack-bpc3p.mongodb.net/omnistack?retryWrites=true',
-    {
-        useNewUrlParser: true
-    }
-);
+  {
+    useNewUrlParser: true,
+  });
 
 // Middleware para se conectar a uma room
 app.use((req, res, next) => {
-    req.io = io;
+  req.io = io;
 
-    return next();
+  return next();
 });
 
 app.use(express.json());
